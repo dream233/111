@@ -1,10 +1,10 @@
 import json
 import numpy as np
 import os
+import random
 
 def convert_shapes_to_coco_annotations(shapes, image_id, category_dict, annotation_id):
     annotations = []
-
     for shape in shapes:
         label = shape["label"]
         if label not in category_dict:
@@ -31,14 +31,8 @@ def convert_shapes_to_coco_annotations(shapes, image_id, category_dict, annotati
 
     return annotations, annotation_id
 
-def convert_to_coco_json(input_folder, output_json_path, classes_txt_path):
-    coco_format = {
-        "images": [],
-        "type": "instances",
-        "annotations": [],
-        "categories": []
-    }
-
+def split_coco_json(input_folder, test_json_path, trainval_json_path, split_ratio=0.1):
+    all_data = []
     category_dict = {}
     image_id = 1
     annotation_id = 1
@@ -49,32 +43,44 @@ def convert_to_coco_json(input_folder, output_json_path, classes_txt_path):
             with open(file_path, 'r') as file:
                 data = json.load(file)
 
-            coco_format["images"].append({
+            image_info = {
                 "id": image_id,
                 "file_name": data["imagePath"],
                 "height": data["imageHeight"],
                 "width": data["imageWidth"]
-            })
+            }
 
             annotations, annotation_id = convert_shapes_to_coco_annotations(
                 data["shapes"], image_id, category_dict, annotation_id)
-            coco_format["annotations"].extend(annotations)
 
+            all_data.append((image_info, annotations))
             image_id += 1
 
-    coco_format["categories"] = [{"id": id, "name": name} for name, id in category_dict.items()]
+    random.shuffle(all_data)
+    test_count = int(len(all_data) * split_ratio)
+    test_data = all_data[:test_count]
+    trainval_data = all_data[test_count:]
 
-    with open(output_json_path, 'w') as file:
-        json.dump(coco_format, file, indent=4)
+    def create_coco_json(data, path):
+        coco_format = {
+            "images": [item[0] for item in data],
+            "type": "instances",
+            "annotations": [ann for item in data for ann in item[1]],
+            "categories": [{"id": id, "name": name} for name, id in category_dict.items()]
+        }
+        with open(path, 'w') as file:
+            json.dump(coco_format, file, indent=4)
 
-    with open(classes_txt_path, 'w') as file:
-        for name, id in category_dict.items():
-            file.write(f'{id}: {name}\n')
+    create_coco_json(test_data, test_json_path)
+    create_coco_json(trainval_data, trainval_json_path)
 
-# Replace with your folder path containing JSON files, output file path, and classes txt path
-input_folder = 'C:\\Users\\22935\Downloads\\111\\OBJ_DET_IMAGES_ALL_labeled_YOLO-20231116T195349Z-001\\OBJ_DET_IMAGES_ALL_labeled_YOLO\\labels'
-output_json_path = 'annotation.json'
-classes_txt_path = 'class_with_id.txt'
+# Replace with your folder path containing JSON files, and output file paths
+input_folder = 'C:\\Users\\22935\Downloads\\111\\kitchen\\labels'
+output_json_path = 'annotation_all.json'
+test_json_path = 'test.json'
+trainval_json_path = 'trainval.json'
 
-convert_to_coco_json(input_folder, output_json_path, classes_txt_path)
+split_coco_json(input_folder, test_json_path, trainval_json_path)
+
+
 
