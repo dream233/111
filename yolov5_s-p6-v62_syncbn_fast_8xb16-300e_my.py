@@ -7,7 +7,7 @@ num_classes = len(class_name) # dataset category number
 # metainfo is a configuration that must be passed to the dataloader, otherwise it is invalid
 # palette is a display color for category at visualization
 # The palette length must be greater than or equal to the length of the classes
-metainfo = dict(classes=class_name, palette=[(25, 220, 60)])
+# metainfo = dict(classes=class_name, palette=[(25, 220, 60)])
 
 # Adaptive anchor based on tools/analysis_tools/optimize_anchors.py
 # anchors = [
@@ -44,7 +44,7 @@ train_dataloader = dict(
     num_workers=train_num_workers,
     dataset=dict(
         data_root=data_root,
-        metainfo=metainfo,
+        # metainfo=metainfo,
         # Dataset annotation file of json path
         ann_file='annotations/trainval.json',
         # Dataset prefix
@@ -52,7 +52,7 @@ train_dataloader = dict(
 
 val_dataloader = dict(
     dataset=dict(
-        metainfo=metainfo,
+        # metainfo=metainfo,
         data_root=data_root,
         ann_file='annotations/test.json',
         data_prefix=dict(img='images/')))
