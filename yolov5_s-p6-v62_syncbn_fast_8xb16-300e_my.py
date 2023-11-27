@@ -10,10 +10,16 @@ num_classes = len(class_name) # dataset category number
 metainfo = dict(classes=class_name, palette=[(25, 220, 60)])
 
 # Adaptive anchor based on tools/analysis_tools/optimize_anchors.py
+# anchors = [
+#     [(68, 69), (154, 91), (143, 162)],  # P3/8
+#     [(242, 160), (189, 287), (391, 207)],  # P4/16
+#     [(353, 337), (539, 341), (443, 432)]  # P5/32
+# ]
+
 anchors = [
-    [(68, 69), (154, 91), (143, 162)],  # P3/8
-    [(242, 160), (189, 287), (391, 207)],  # P4/16
-    [(353, 337), (539, 341), (443, 432)]  # P5/32
+    [(41, 51), (36, 137), (77, 79)], 
+    [(56, 128), (79, 128), (44, 259)], 
+    [(99, 177), (176, 177), (108, 317)]
 ]
 # Max training 40 epoch
 max_epochs = 40
