@@ -2,7 +2,30 @@
 _base_ = 'yolov5_s-v61_syncbn_fast_8xb16-300e_coco.py'
 
 data_root = './data/kitchen/' # dataset root
-class_name = ('pan','bowl','spatula','small_spoon','measuring_cup_glass','pepper','tongs','scissors','oatmeal','big_spoon','hot_pad','salt','timer','measuring_spoons','measuring_cup_1/2','measuring_cup_full','measuring_cup_1/3','measuring_cup_coffee','measuring_cup_1/4','measuring_cup_group','glass' ) # dataset category name
+# class_name = ('pan','bowl','spatula','small_spoon','measuring_cup_glass','pepper','tongs','scissors','oatmeal','big_spoon','hot_pad','salt','timer','measuring_spoons','measuring_cup_1/2','measuring_cup_full','measuring_cup_1/3','measuring_cup_coffee','measuring_cup_1/4','measuring_cup_group','glass' ) # dataset category name
+class_name = [
+    'person', 'bicycle', 'car', 'motorcycle', 'airplane',
+    'bus', 'train', 'truck', 'boat', 'traffic light',
+    'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird',
+    'cat', 'dog', 'horse', 'sheep', 'cow',
+    'elephant', 'bear', 'zebra', 'giraffe', 'backpack',
+    'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
+    'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat',
+    'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle',
+    'wine glass', 'cup', 'fork', 'knife', 'spoon',
+    'bowl', 'banana', 'apple', 'sandwich', 'orange',
+    'broccoli', 'carrot', 'hot dog', 'pizza', 'donut',
+    'cake', 'chair', 'couch', 'potted plant', 'bed',
+    'dining table', 'toilet', 'tv', 'laptop', 'mouse',
+    'remote', 'keyboard', 'cell phone', 'microwave', 'oven',
+    'toaster', 'sink', 'refrigerator', 'book', 'clock',
+    'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush',
+    # kitchen
+    'pan','bowl','spatula','small_spoon','measuring_cup_glass','pepper','tongs','scissors','oatmeal',
+    'big_spoon','hot_pad','salt','timer','measuring_spoons','measuring_cup_1/2','measuring_cup_full',
+    'measuring_cup_1/3','measuring_cup_coffee','measuring_cup_1/4','measuring_cup_group','glass'
+]
+
 num_classes = len(class_name) # dataset category number
 # metainfo is a configuration that must be passed to the dataloader, otherwise it is invalid
 # palette is a display color for category at visualization
